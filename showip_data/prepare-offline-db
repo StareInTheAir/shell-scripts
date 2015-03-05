@@ -1,0 +1,25 @@
+#!/bin/bash
+if [ -f "ip-to-country.csv.zip" ]; then
+    rm "ip-to-country.csv.zip"
+fi
+
+if [ -f "ip-to-country.csv" ]; then
+    rm "ip-to-country.csv"
+fi
+
+if [ -f "ip-to-country.sqlite" ]; then
+    rm "ip-to-country.sqlite"
+fi
+
+wget "http://ip-to-country.webhosting.info/downloads/ip-to-country.csv.zip" &> /dev/null
+unzip "ip-to-country.csv.zip" &> /dev/null
+
+sqlite3 "ip-to-country.sqlite" < "convert-csv-to-sqlite.sql"
+
+if [ -f "ip-to-country.csv.zip" ]; then
+    rm "ip-to-country.csv.zip"
+fi
+
+if [ -f "ip-to-country.csv" ]; then
+    rm "ip-to-country.csv"
+fi

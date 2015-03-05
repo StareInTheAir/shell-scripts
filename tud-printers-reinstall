@@ -1,0 +1,42 @@
+#!/bin/bash
+# Removes and install the C and E pool printer in the Piloty building at TU Darmstadt.
+# Author: Hans Becker <github.com/develo13>
+
+readonly RBG_USERNAME="hb55comy"
+readonly PPD="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd"
+readonly URL="printer.rbg.informatik.tu-darmstadt.de"
+readonly COMMON_OPTIONS="-E -U $RBG_USERNAME -P $PPD -o printer-is-shared=false -o APOptionalDuplexer=True -o PageSize=A4"
+readonly C_POOL_NAME="TUD_C_Pool"
+readonly E_POOL_NAME="TUD_E_Pool"
+
+checkAndReportExitCode() {
+  if [ $? -eq 0 ]; then
+    echo "ok"
+  else
+    echo "failed"
+  fi
+}
+
+lpstat -p $C_POOL_NAME &> /dev/null
+if [ $? -eq 0 ]; then
+  echo -n "removing C pool printer: "
+  lpadmin -x $C_POOL_NAME
+  checkAndReportExitCode
+fi
+
+lpstat -p $E_POOL_NAME &> /dev/null
+if [ $? -eq 0 ]; then
+  echo -n "removing E pool printer: "
+  lpadmin -x $E_POOL_NAME
+  checkAndReportExitCode
+fi
+
+echo -n "adding C pool printer: "
+lpadmin -p $C_POOL_NAME -D "TUD C Pool" -L "S202/C005" -v "smb://$URL/C005-extern-windows" $COMMON_OPTIONS
+checkAndReportExitCode
+
+echo -n "adding E pool printer: "
+lpadmin -p $E_POOL_NAME -D "TUD E Pool" -L "S202/E003" -v "smb://$URL/E003-extern-windows" $COMMON_OPTIONS
+checkAndReportExitCode
+
+exit 0

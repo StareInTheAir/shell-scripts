@@ -1,0 +1,3 @@
+#!/bin/bash
+rm "/Users/hans/Dropbox/root/7dtd-Saves.zip"
+zip "/Users/hans/Dropbox/root/7dtd-Saves.zip" "/Users/hans/7 Days To Die/Saves/" -r -1 -q

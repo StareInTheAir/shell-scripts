@@ -1,0 +1,16 @@
+#!/bin/bash
+# script to display the sizes of files and directories in the format of ls -lhL
+## note that large space on line 9 (the '   ' that follows "cut -d") is a tab, created in a terminal with CTRL+v then TAB
+for x in *;
+  do
+    y="$(echo "$x" | sed -e 's/\[/\\[/g' -e 's/]/\\]/g')"
+    echo -e \
+      "$(ls -lL | grep "[0-9]\{2\}:[0-9]\{2\} $y$" | sed 's/[ ][ ]*/ /g' | cut -d ' ' -f 1-4) \
+        $(du -sh "$x" | cut -d '	' -f 1)" \
+      "$(ls -lL | grep "[0-9]\{2\}:[0-9]\{2\} $y$" | sed 's/[ ][ ]*/ /g' | cut -d ' ' -f 6-20 )";
+  done \
+| column -t \
+| sed -e 's/[ ]\([ ][ ]*\)/\1/g' \
+| sed -e 's/[ ][ ]*/ /8g' \
+| sed 's/\([ ][ ]*\)\([^ ]*\)\([ ]\)\([ ]*\)\([^ ]*[ ]*[^ ]*[ ]*\)\([^ ]*\)\([ ]\)\([ ]*\)/\1\4\2\3\5\8\6\7/'
+

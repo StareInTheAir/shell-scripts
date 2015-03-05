@@ -1,0 +1,28 @@
+Show extended attributes
+xattr -l <dir/file>
+
+Show extended attributes recursively
+xattr -rl <dir/file>
+
+
+Clear all extended attributes
+xattr -c <dir/file>
+
+Clear all extended attributes recursively
+xattr -rc <dir/file>
+
+
+File flags (chflags)
+Flags can be: arch archived opaque nodump sappnd sappend schg schange simmutable uappnd uappend uchg uchange uimmutable hidden
+
+List file flags
+ls -lO <dir/file>
+
+Remove flag
+chflags no<flag> <file/dir>
+
+Remove flag recursively
+chflags -R no<flag> <file/dir>
+
+Remove flag recursively and be verbose
+chflags -Rvv no<flag> <file/dir>

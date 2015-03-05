@@ -1,0 +1,79 @@
+#!/bin/bash
+
+FILE_1="http://ftp.de.debian.org/debian/dists/oldstable/Contents-mips.gz"                                    #  16,4 MiB
+FILE_2="http://gd.tuwien.ac.at/opsys/linux/damnsmall/current/dsl-4.4.10-embedded.zip"                        #  50,7 MiB
+FILE_3="http://dlc.sun.com.edgesuite.net/virtualbox/4.3.6/VirtualBox-4.3.6-91406-SunOS.tar.gz"               #  96,7 MiB
+FILE_4="http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/19.0/win32/en-US/Firefox%20Setup%2019.0.exe" #  19,6 MiB
+FILE_5="http://www.speedtest.qsc.de/50MB.qsc"
+
+case "$1" in
+    q*)
+        echo "Performing quick speed test"
+        url[0]=$FILE_5
+        #url[0]=$FILE_1
+        #url[1]=$FILE_2
+        #url[2]=$FILE_3
+
+        range[0]=0-1048575
+        #range[1]=0-1048575
+        #range[2]=0-1048575
+        ;;
+    n*|m*)
+        echo "Performing normal speed test"
+        url[0]=$FILE_5
+        #url[0]=$FILE_2
+        #url[1]=$FILE_3
+        #url[2]=$FILE_4
+        #url[3]=$FILE_1
+
+        range[0]=0-10485759
+        #range[1]=0-10485759
+        #range[2]=0-10485759
+        #range[3]=0-10485759
+        ;;
+    l*)
+        echo "Performing long speed test"
+        url[0]=$FILE_5
+        #url[0]=$FILE_1
+        #url[1]=$FILE_2
+        #url[2]=$FILE_3
+        #url[3]=$FILE_4
+
+        range[0]=0-15728639
+        #range[1]=0-52428799
+        #range[2]=0-15728639
+        #range[3]=0-52428799
+        ;;
+    *)
+        # short is default
+        echo "Performing short speed test"
+        url[0]=$FILE_5
+        #url[0]=$FILE_1
+        #url[1]=$FILE_2
+        #url[2]=$FILE_4
+        #url[3]=$FILE_3
+
+        range[0]=0-2621439
+        #range[1]=0-2621439
+        #range[2]=0-2621439
+        #range[3]=0-2621439
+        ;;
+esac
+arrayLength=${#url[@]}
+for (( i=0; i<$arrayLength; i++ )); do
+    currentUrl=${url[$i]}
+    currentRange=${range[$i]}
+    speed[$i]=$(curl -s -o /dev/null -r $currentRange -w "%{speed_download}" $currentUrl)
+    if which numfmt > /dev/null; then
+        speed[$i]=$(numfmt --to=iec-i ${speed[$i]})B/s
+    elif which gnumfmt > /dev/null; then
+        speed[$i]=$(gnumfmt --to=iec-i ${speed[$i]})B/s
+    fi
+    
+    echo ${speed[$i]}
+done
+
+#q quick 3x1 = 3
+#s short 4x2.5 = 10
+#n normal = 4x10 = 40
+#l long 2x15 2x50 = 80

@@ -1,0 +1,5 @@
+#!/bin/bash
+if [ $(adb shell dumpsys power | grep mWakefulness | tr -d "\r " | awk -F= '{ print $2 }') != "Awake" ]
+then
+    adb shell input keyevent KEYCODE_POWER
+fi

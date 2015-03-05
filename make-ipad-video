@@ -1,0 +1,31 @@
+#!/bin/bash
+if [ $# -eq 0 ]; then
+    echo "No video file specified. Call me like this:"
+    echo "$0 video-file1.ext video-file2.ext ..."
+    exit 1
+fi
+
+OUTPUT_DIR="/Volumes/WD Elements/iPadVideos/"
+if [ ! -e "$OUTPUT_DIR" ]; then
+    mkdir "$OUTPUT_DIR"
+    if [ $? -ne 0 ]; then
+        echo "Coundn't create output directory $OUTPUT_DIR"
+        exit 3
+    fi
+fi
+
+if [ ! -d "$OUTPUT_DIR" ]; then
+    echo "Output directory $OUTPUT_DIR isn't a directory"
+    exit 2
+fi
+
+for videoFile in "$@"
+do
+    basename=$(basename "$videoFile")
+    echo "converting $videoFile"
+    ffmpeg -stats -loglevel warning -i "$videoFile" -c:v copy -c:a libfdk_aac -b:a 128k -ac 2 -sn "$OUTPUT_DIR$basename.mkv"
+    echo "done"
+    echo
+done
+
+exit 0

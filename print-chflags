@@ -1,0 +1,51 @@
+#!/bin/bash
+readonly FLAGS=(arch archived opaque nodump sappnd sappend schg schange simmutable uappnd uappend uchg uchange uimmutable hidden)
+
+printFlagsIfPresent() {
+	possibleFlag=$(echo "$1" | awk '{ print $5 }')
+	if [ "$possibleFlag" != "-" ]; then
+		for flag in ${FLAGS[@]}; do
+			if [ "$possibleFlag" == "$flag" ]; then
+				echo -n "$flag: "
+				echo $1 | cut -d ' ' -f 10-
+				break
+			fi
+		done
+	fi
+}
+
+printHelp() {
+	echo "usage: $0 [-r] FILES DIRECTORIES"
+	exit 1
+}
+
+if [ "${1}" == "-h" ]; then
+	printHelp
+fi
+
+if [ "${1}" == "-r" ]; then
+	# remove -r parameter
+	shift
+	recursive=true
+else
+	recursive=false
+fi
+
+if [ $# -eq 0 ]; then
+	printHelp
+fi
+
+
+if [ $recursive = true ]; then
+	ls -RlOA "$@" |
+	while read lsLine; do
+		printFlagsIfPresent "$lsLine"
+	done
+else
+	ls -lOA "$@" |
+	while read lsLine; do
+		printFlagsIfPresent "$lsLine"
+	done
+fi
+
+exit 0

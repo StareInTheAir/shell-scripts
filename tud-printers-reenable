@@ -1,0 +1,37 @@
+#!/bin/bash
+# Disables and enables the C and E pool printer in the Piloty building at TU Darmstadt.
+# Author: Hans Becker <github.com/develo13>
+
+readonly C_POOL_NAME="$TUD_C_Pool"
+readonly E_POOL_NAME="$TUD_E_Pool"
+
+echo -n "disabling C pool printer: "
+if !(cupsreject $C_POOL_NAME || cupsdisable $C_POOL_NAME); then
+  echo "failed"
+else 
+  echo "ok"
+fi
+
+echo -n "enabling C pool printer: "
+if !(cupsenable $C_POOL_NAME || cupsaccept $C_POOL_NAME); then
+  echo "failed"
+else 
+  echo "ok"
+fi
+
+
+echo -n "disabling E pool printer: "
+if !(cupsreject $E_POOL_NAME || cupsdisable $E_POOL_NAME); then
+  echo "failed"
+else 
+  echo "ok"
+fi
+
+echo -n "enabling E pool printer: "
+if !(cupsenable $E_POOL_NAME || cupsaccept $E_POOL_NAME); then
+  echo "failed"
+else 
+  echo "ok"
+fi
+
+exit 0

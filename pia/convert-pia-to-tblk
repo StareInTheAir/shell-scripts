@@ -1,0 +1,27 @@
+#!/bin/bash
+if [ -f ./openvpn.zip ]
+	then
+		rm ./openvpn.zip
+		echo deleted openvpn.zip
+fi
+
+if [ -d ./pia ]
+	then
+		rm -r ./pia
+		echo deleted pia folder
+fi
+wget https://www.privateinternetaccess.com/openvpn/openvpn.zip &> /dev/null
+echo downloaded openvpn.zip
+unzip -q openvpn.zip -d ./pia
+echo unzipped openvpn.zip
+cd ./pia
+for file in *.ovpn; do
+	filename=${file##*/} # without path
+	basename=${filename%%.*} # without extension
+	mkdir "$basename.tblk"
+	mv "$file" "$basename.tblk"
+	cp ca.crt "$basename.tblk"
+	echo generated "$basename.tblk"
+done
+rm ca.crt
+rm ../openvpn.zip
