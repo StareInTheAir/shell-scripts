@@ -1,2 +1,0 @@
-Change file permissions of all files and dirs in <dir> to 775 and 644 (=default)
-find <file/dir> \( -type d -exec chmod 755 {} + \) -o \( -type f -exec chmod 644 {} + \)
