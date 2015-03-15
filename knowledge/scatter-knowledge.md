@@ -14,7 +14,7 @@ done
 - [[ and == are mandatory
 - no quotes araound wildcard expression
 
-[http://tldp.org/LDP/abs/html/comparison-ops.html]()
+[http://tldp.org/LDP/abs/html/comparison-ops.html](http://tldp.org/LDP/abs/html/comparison-ops.html)
 
 # RegEx
 ```bash
@@ -75,4 +75,4 @@ else
         # Unknown.
 fi
 ```
-[http://stackoverflow.com/a/8597411]()
+[http://stackoverflow.com/a/8597411](http://stackoverflow.com/a/8597411)
