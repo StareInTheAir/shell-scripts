@@ -1,0 +1,43 @@
+#!/bin/bash
+currentValue=$1
+maxValue=$2
+outputWidth=$3
+
+progress=$((100*$currentValue/$maxValue))
+# at the end of the progress bar there is the percentange
+# 1 space + % sign (=2)
+outputWidth=$(($outputWidth-2))
+
+# substract the width of percentange
+if [ $progress -ge 0 -a $progress -lt 10 ]; then
+    outputWidth=$(($outputWidth-1))
+elif [ $progress -ge 10 -a $progress -lt 100 ]; then
+    outputWidth=$(($outputWidth-2))
+elif [ $progress -ge 100 -a $progress -lt 999 ]; then
+    outputWidth=$(($outputWidth-3))
+else
+    echo "progress invalid"
+    exit 2
+fi
+
+# [] must also be substracted von outputWidth
+outputWidth=$(($outputWidth-3))
+# TODO why 3?
+# fix zero
+
+filledChars=$(( $outputWidth*$progress/100-1 ))
+emptyChars=$(( $outputWidth-$filledChars ))
+echo -n "["
+if [ $filledChars -gt 0 ]; then
+    printf '=%.0s' $(seq 1 $filledChars)
+fi
+echo -n ">"
+# clear rest of line
+echo -ne "\033[K"
+# move cursor forward by $emptyChars
+echo -ne "$(printf "\033[%dC" $emptyChars)"
+echo -n "] $progress%"
+if [ "$4" != "-n" ]; then
+    echo
+fi
+exit 0
