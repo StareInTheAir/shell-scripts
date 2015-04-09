@@ -16,6 +16,11 @@ done
 
 [http://tldp.org/LDP/abs/html/comparison-ops.html](http://tldp.org/LDP/abs/html/comparison-ops.html)
 
+# String Length
+```bash
+${#string}
+```
+
 # RegEx
 ```bash
 readonly REGEX="[a-fA-F0-9]+\ +(.+)"
@@ -25,12 +30,14 @@ echo $fileName
 ```
 
 # Arrays
+### define
 ```bash
 array=("one" "two")
 array+=("foo")
 array+=("bar")
 ```
 
+### contains
 ```bash
 containsElement () {
     local e
@@ -46,6 +53,11 @@ $ echo $?
 $ containsElement "blaha" "${array[@]}"
 $ echo $?
 1
+```
+
+### length
+```bash
+echo ${#array[@]}
 ```
 
 
@@ -76,3 +88,29 @@ else
 fi
 ```
 [http://stackoverflow.com/a/8597411](http://stackoverflow.com/a/8597411)
+
+# Terminal width / height
+
+```bash
+echo $LINES
+echo $COLUMNS
+```
+
+```bash
+tput cols
+tput lines
+```
+
+# Funtion return value and exit code
+```bash
+doStuff() {
+    echo "result"
+    return 0
+}
+```
+
+# Calculate
+```bash
+echo $((100 / 3))
+echo "scale=5; 31.2/494" | bc
+```
