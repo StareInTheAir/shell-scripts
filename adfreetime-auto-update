@@ -1,0 +1,61 @@
+#!/bin/sh
+#
+# Ad-free time! update script
+#
+# This script automatically sends your current IP address to the Ad-free time! api.
+# It can be used to update your IP adress via cron.
+#
+# Initial author of unblock-us script:
+# Timo Schlueter (me@timo.in, www.timo.in, twitter.com/tmuuh)
+#
+# Autor of Ad-free time! script:
+# Hans Becker
+#
+# Version:      1.1
+# Date:         2015-06-02
+#
+# Notes:        I am not affiliated directly or indirectly with Ad-free time!
+#
+
+# Variables (user specific)
+useremail=$(head -n 1 adfreetime-username.txt)
+logfile="/tmp/af.log"
+
+# Environment
+apiurl="https://login.adfreetime.com/cron.php?email=$useremail"
+
+log() {
+  echo "$(date) $1" >> $logfile
+  echo $1
+}
+
+# Check if email is set.
+if [ -z $useremail ]
+  then
+    log "No email set."
+    exit 2
+else
+  # Call the api
+  response=$(curl --silent --show-error $apiurl)
+  if [ $? -ne 0 ]
+    then
+      exit $?
+  fi
+
+  # Check response from api
+  case "$response" in
+    *is\ activated*)
+      log "IP was already activated."
+      exit 0
+      ;;
+    *Success*)
+      log "New IP was successfully activated."
+      exit 0
+      ;;
+    *)
+      log "Unknown response:"
+      log "$response"
+      exit 1
+      ;;
+  esac
+fi
