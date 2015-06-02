@@ -1,5 +1,7 @@
 # Extended attributes
 
+Indicated by @ in ```ls```
+
 ### Show extended attributes
 ```bash
 xattr -l <dir/file>
@@ -21,6 +23,8 @@ xattr -rc <dir/file>
 ```
 
 # File flags (chflags)
+
+Indicated by nothing in ```ls```
 
 Flags can be:
 
@@ -58,4 +62,12 @@ chflags -R no<flag> <dir>
 ### Remove flag recursively and be verbose
 ```bash
 chflags -Rvv no<flag> <dir>
+```
+# Access Control List
+
+Indicated by + in ```ls```
+
+### List flags
+```bash
+ls -le
 ```
