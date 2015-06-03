@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+    echo "i need one parameter: the address (with port) of your android phone"
+    exit 1
+fi
+
+while true; do
+    if [ $(adb devices | grep "$1" | wc -l) -lt 1 ]; then
+        adb connect $1
+        adbExitCode=$?
+        if [ $adbExitCode -ne 0 ]; then
+            echo "adb connect failed"
+        fi
+    fi
+    sleep 1
+done
