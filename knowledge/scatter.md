@@ -118,10 +118,21 @@ echo "scale=5; 31.2/494" | bc
 # Change file times
 
 ### Only change the last accessed time
+```bash
 touch -t -a 20110920083000 /home/user/testmsg.txt
+```
 
 ### Only change the last modified time
+```bash
 touch -t -m 20110920083000 /home/user/testmsg.txt
+```
 
 ### Change both the times - modified and accessed times
+```bash
 touch -t 20110920083000 /home/user/testmsg.txt
+```
+
+# Change into directory of script
+```bash
+cd "$(dirname "$0")"
+```
