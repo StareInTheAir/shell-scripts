@@ -1,0 +1,14 @@
+#!/bin/bash
+readonly MAX_RETRIES=3
+retries=0
+
+$("$@")
+exitCode=$?
+while [ $exitCode -ne 0 -a $retries -lt $MAX_RETRIES ]; do
+  retries=$(($retries+1))
+  sleep 2
+  echo "Retry #$retries"
+  $("$@")
+  exitCode=$?
+done
+exit $exitCode
