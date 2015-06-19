@@ -11,46 +11,62 @@
 # Autor of Ad-free time! script:
 # Hans Becker
 #
-# Version:      1.1
-# Date:         2015-06-02
-#
-# Notes:        I am not affiliated directly or indirectly with Ad-free time!
+# Version:      1.2
+# Date:         2015-06-19
 #
 
-# Variables (user specific)
-useremail=$(head -n 1 adfreetime-username.txt)
-logfile="/tmp/af.log"
+# change into directory of script (because that's where adfreetime-username.txt is expected to be)
+cd "$(dirname "$0")"
 
-# Environment
-apiurl="https://login.adfreetime.com/cron.php?email=$useremail"
+readonly userEMail=$(head -n 1 adfreetime-username.txt)
+readonly logFile="/tmp/af.log"
+readonly ipFile="/tmp/af-last-ip.txt"
+readonly apiUrl="https://login.adfreetime.com/cron.php?email=$userEMail"
+readonly curlOptions="--silent --show-error --fail --location"
+# of you're on ddwrt add --insecure option to curlOptions
 
 log() {
-  echo "$(date) $1" >> $logfile
+  echo "$(date) $1" >> "$logFile"
   echo $1
 }
 
+# get public id
+readonly publicIp=$(curl $curlOptions http://checkip.dyndns.org/ | grep -Eo '\<[[:digit:]]{1,3}(\.[[:digit:]]{1,3}){3}\>')
+exitCode=$?
+if [ $exitCode -ne 0 ]; then
+    log "Getting public ip failed"
+    exit $exitCode
+fi
+
+# check if ip has changed
+if [ -f "$ipFile" ]; then
+  readonly oldIp=$(head -n 1 "$ipFile")
+  if [ "$publicIp" == "$oldIp" ]; then
+    log "IP ($publicIp) hasn't change since the last execution."
+    exit 0
+  fi
+fi
+
 # Check if email is set.
-if [ -z $useremail ]
-  then
+if [ -z "$userEMail" ]; then
     log "No email set."
     exit 2
 else
   # Call the api
-  response=$(curl --silent --show-error $apiurl)
-  if [ $? -ne 0 ]
-    then
-      exit $?
+  response=$(curl $curlOptions $apiUrl)
+  exitCode=$?
+  if [ $exitCode -ne 0 ]; then
+      log "API call failed"
+      exit $exitCode
   fi
 
   # Check response from api
   case "$response" in
     *is\ activated*)
-      log "IP was already activated."
-      exit 0
+      log "IP ($publicIp) was already activated."
       ;;
     *Success*)
-      log "New IP was successfully activated."
-      exit 0
+      log "New IP ($publicIp) was successfully activated."
       ;;
     *)
       log "Unknown response:"
@@ -59,3 +75,6 @@ else
       ;;
   esac
 fi
+
+printf "%s" "$publicIp" > "$ipFile"
+exit 0
