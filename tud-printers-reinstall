@@ -2,10 +2,9 @@
 # Removes and install the C and E pool printer in the Piloty building at TU Darmstadt.
 # Author: Hans Becker <github.com/develo13>
 
-readonly RBG_USERNAME="hb55comy"
 readonly PPD="/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/Resources/Generic.ppd"
 readonly URL="printer.rbg.informatik.tu-darmstadt.de"
-readonly COMMON_OPTIONS="-E -U $RBG_USERNAME -P $PPD -o printer-is-shared=false -o APOptionalDuplexer=True -o PageSize=A4"
+readonly COMMON_OPTIONS="-E -P $PPD -o printer-is-shared=false -o APOptionalDuplexer=True -o PageSize=A4"
 readonly C_POOL_NAME="TUD_C_Pool"
 readonly E_POOL_NAME="TUD_E_Pool"
 
