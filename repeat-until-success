@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 readonly MAX_RETRIES=3
 retries=0
 
