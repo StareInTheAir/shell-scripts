@@ -11,8 +11,8 @@
 # Autor of Ad-free time! script:
 # Hans Becker
 #
-# Version:      1.2
-# Date:         2015-06-19
+# Version:      1.3
+# Date:         2015-06-21
 #
 
 # change into directory of script (because that's where adfreetime-username.txt is expected to be)
@@ -22,7 +22,7 @@ readonly userEMail=$(head -n 1 adfreetime-username.txt)
 readonly logFile="/tmp/af.log"
 readonly ipFile="/tmp/af-last-ip.txt"
 readonly apiUrl="https://login.adfreetime.com/cron.php?email=$userEMail"
-readonly curlOptions="--silent --show-error --fail --location"
+readonly curlOptions="--silent --show-error --fail --location --max-time 30"
 # of you're on ddwrt add --insecure option to curlOptions
 
 log() {
