@@ -208,6 +208,10 @@ In ``/etc/selinux/config`` do following and restart
 	[Share]
 		guest ok = yes
 
+### User setup
+Each user, who should be able to login to the share, need to be added to samba via:
+
+	smbpasswd -a user
 
 ### Add exception to firewall
 	firewall-cmd --permanent --add-service=samba
@@ -235,11 +239,14 @@ Remove them again:
 	dnf install syncthing
 
 ### Start
-
 **_VERY IMPORTANT_**: To run any ``systemctl --user`` command, you need to be really logged in as the user you want to run the service as. ``su`` and even ``su -`` don't work, because dbus doesn't want to play along then. You either need to be logged in at the physical machine or ``ssh`` to the user.
 
 	systemctl --user enable syncthing
 	systemctl --user start syncthing
+
+By default syncthing is then started, when the user logs in and stopped, when the user logs out. Start syncthing at boot time, without login:
+
+	loginctl enable-lingering user
 
 ### Disable syncthing-inotify
 The systemd script from decathorpe/syncthing don't uncouple syncthing and syncthing-inotify. You can't uninstall one without the other and they always start in union, even when syncthing-inotify is disabled. To disable syncthing-inotify for good:
