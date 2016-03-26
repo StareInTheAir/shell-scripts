@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+  echo "call me with exactly one argument"
+  exit 1
+fi
+
+if ! [ -f "$1" ] || ! [ -r "$1" ]; then
+  echo "$1 is not a readable file"
+  exit 2
+fi
+
+err=0
+while read -r url filename; do
+  echo "Downloading $filename"
+  wget --continue --timestamping --quiet --show-progress -O "$filename" "$url"
+  if [ $? -eq 0 ]; then
+    echo "OK"
+  else
+    echo "failed"
+    err=3
+  fi
+done < "$1"
+
+exit $err

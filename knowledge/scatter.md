@@ -2,7 +2,10 @@
 Change all directory permissions to 775 and all file permissions to 644 (which is default)
 
 ```bash
-find <file/dir> \( -type d -exec chmod 755 {} + \) -o \( -type f -exec chmod 644 {} + \)
+find <file/dir> \( -type d -exec chmod 755 "{}" + \) -o \( -type f -exec chmod 644 "{}" + \)
+```
+```bash
+find <file/dir> -exec chown <user>:<group> "{}" \;
 ```
 
 # String starts with
@@ -12,7 +15,7 @@ while [[ "$1" == -* ]]; do
 done
 ```
 - [[ and == are mandatory
-- no quotes araound wildcard expression
+- no quotes around wildcard expression
 
 [http://tldp.org/LDP/abs/html/comparison-ops.html](http://tldp.org/LDP/abs/html/comparison-ops.html)
 
