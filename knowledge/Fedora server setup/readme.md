@@ -244,7 +244,7 @@ Remove them again:
 	systemctl --user enable syncthing
 	systemctl --user start syncthing
 
-By default syncthing is then started, when the user logs in and stopped, when the user logs out. Start syncthing at boot time, without login:
+By default syncthing is then started, when the user logs in and stopped, when the user logs out. Start syncthing at boot time, without login and not stop it at logout:
 
 	loginctl enable-lingering user
 
