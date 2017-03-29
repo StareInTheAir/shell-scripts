@@ -1,6 +1,0 @@
-#/bin/bash
-echo "--- deleting old files ---"
-find /media/RAID5/links/.recycle -mindepth 1 -depth -type f -mtime +90 -print -delete
-echo
-echo "--- deleting old directories ---"
-find /media/RAID5/links/.recycle -mindepth 1 -depth -type d -empty -mtime +90 -print -delete

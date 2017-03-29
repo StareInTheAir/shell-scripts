@@ -1,3 +1,0 @@
-#!/bin/bash
-find /dev/ -name "sd?" -print -exec sh -c "smartctl -A {} | grep -E '(Load_Cycle_Count|Power_On_Hours|Power_Cycle_Count)'" \;
-exit 0
