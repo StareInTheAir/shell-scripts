@@ -8,6 +8,35 @@ find <file/dir> \( -type d -exec chmod 755 "{}" + \) -o \( -type f -exec chmod 6
 find <file/dir> -exec chown <user>:<group> "{}" \;
 ```
 
+# Change into directory of script
+```bash
+cd "$(dirname "$0")"
+```
+
+# clean config files of comments
+	grep -v '^$\|^\s*[\#;(\/\/)]' <file>
+	# exclude empty lines and lines starting with ; # //
+
+# Read file line by line
+```bash
+while read line; do
+    echo "... $line ..."
+done < "<filename>"
+```
+
+# Read variable content line by line
+```bash
+while read line; do
+    echo "... $line ..."
+done <<< "$list"
+```
+
+# Access space separated arguments in string
+```bash
+echo 1 2 3 | awk '{print $2}'
+# IMPORTANT: not "{print $2}"
+```
+
 # String starts with
 ```bash
 while [[ "$1" == -* ]]; do
@@ -135,7 +164,13 @@ touch -t -m 20110920083000 /home/user/testmsg.txt
 touch -t 20110920083000 /home/user/testmsg.txt
 ```
 
-# Change into directory of script
-```bash
-cd "$(dirname "$0")"
-```
+# Compare folders
+
+	rsync -avnc --iconv=UTF8-MAC,UTF-8 --delete --no-times --no-perms --no-owner --no-group /local server:/remote
+	# a = archive mode
+	# v = verbose
+	# n = dry-run
+	# c = use checksum for file checks
+	# --iconv=UTF8-MAC,UTF-8 = convert filename enconding, because OS X uses different method of UTF8 https://rsync.samba.org/FAQ.html#2
+	# --no-* = ignore meta file informations
+	# --delete = show deleted files
