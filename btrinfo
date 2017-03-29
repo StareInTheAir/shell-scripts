@@ -1,0 +1,13 @@
+#!/bin/bash
+if  [ $# -ne 1 ]; then
+	echo "usage: $0 <btrfs-mount-point>"
+	exit 1
+fi
+
+btrfs filesystem show "$1"
+echo
+echo
+btrfs filesystem df "$1"
+echo
+echo
+btrfs balance status "$1"

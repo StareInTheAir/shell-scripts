@@ -1,0 +1,66 @@
+#!/bin/bash
+
+readonly TEST_COUNT=$1
+readonly FILE1="$2"
+readonly FILE2="$3"
+
+readonly FILENAME1="${FILE1%.*}"
+readonly FILENAME2="${FILE2%.*}"
+
+# write FILE1 and FILE2 $TEST_COUNT times in play_order
+for (( i = 1 ; i <= ${TEST_COUNT} ; i++ )); do
+    play_order="${play_order} ${FILE1} ${FILE2}"
+done
+# shuffle play_order
+play_order=$(gshuf -e $play_order)
+
+# split play_order at spaces into array
+read -a play_order <<< $play_order
+
+read_guess() {
+    read -p "guess $FILENAME1 or $FILENAME2: " guess
+    echo -en "\033[1A\033[2K"
+}
+
+(( correct_guesses_file1 = 0 ))
+(( correct_guesses_file2 = 0 ))
+
+# iterate element by element through play_order
+for item in ${play_order[*]}; do
+    afplay -t 2 "$item"
+    read_guess
+
+    while [ "$guess" != "$FILENAME1" -a "$guess" != "$FILENAME2" ]; do
+        printf "invalid guess. guess again\n"
+        read_guess
+    done
+    
+    if [ "$item" == "$FILE1" -a "$guess" == "$FILENAME1" ]; then
+        (( correct_guesses_file1+=1 ))
+    fi
+
+    if [ "$item" == "$FILE2" -a "$guess" == "$FILENAME2" ]; then
+        (( correct_guesses_file2+=1 ))
+    fi
+done
+
+(( wrong_guesses_file1 = TEST_COUNT-correct_guesses_file1 ))
+(( wrong_guesses_file2 = TEST_COUNT-correct_guesses_file2 ))
+
+printf "correct guesses for %s: %d\n" "$FILENAME1" $correct_guesses_file1
+printf "  wrong guesses for %s: %d\n" "$FILENAME1" $wrong_guesses_file1
+
+printf "correct guesses for %s: %d\n" "$FILENAME2" $correct_guesses_file2
+printf "  wrong guesses for %s: %d\n" "$FILENAME2" $wrong_guesses_file2
+
+printf "\n"
+
+(( pct_correct_file1 = $correct_guesses_file1*100 / TEST_COUNT ))
+(( pct_correct_file2 = $correct_guesses_file2*100 / TEST_COUNT ))
+(( pct_correct_total = ($correct_guesses_file1 + $correct_guesses_file2) * 100 / (2*TEST_COUNT) ))
+
+printf "%3d%% correct for %s\n" $pct_correct_file1 "$FILENAME1"
+printf "%3d%% correct for %s\n" $pct_correct_file2 "$FILENAME2"
+printf "%3d%% correct totally\n" $pct_correct_total
+
+exit 0

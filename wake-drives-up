@@ -1,0 +1,10 @@
+#!/bin/bash
+if [ $# -eq 0 ]; then
+	echo "usage: $0 <disk1> <disk2> ..."
+	exit 1
+fi
+
+for var in "$@"; do
+	dd if="$var" of=/dev/null bs=4096 count=1 iflag=direct &
+done
+exit 0
