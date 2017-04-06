@@ -9,7 +9,6 @@ Get-AppxPackage *people*|Remove-AppxPackage # Contacts
 Get-AppxPackage *music*|Remove-AppxPackage
 Get-AppxPackage *camera*|Remove-AppxPackage
 Get-AppxPackage *onenote*|Remove-AppxPackage
-Get-AppxPackage *xboxapp*|Remove-AppxPackage
 
 Get-AppxPackage *3dbuilder*|Remove-AppxPackage
 Get-AppxPackage *appinstaller*|Remove-AppxPackage
@@ -20,3 +19,13 @@ Get-AppxPackage *communications*|Remove-AppxPackage # mail and calendar
 Get-AppxPackage *solitaire*|Remove-AppxPackage 
 Get-AppxPackage *skype*|Remove-AppxPackage # skype app
 Get-AppxPackage *oneconnect*|Remove-AppxPackage # Paid WiFi & Cellular
+
+# pre- / auto-installed on 1703 creators update
+Get-AppxPackage *facebook*|Remove-AppxPackage
+Get-AppxPackage *messaging*|Remove-AppxPackage
+Get-AppxPackage *news*|Remove-AppxPackage
+Get-AppxPackage *twitter*|Remove-AppxPackage
+Get-AppxPackage *3dviewer*|Remove-AppxPackage
+Get-AppxPackage *xbox*|Remove-AppxPackage
+Get-AppxPackage *xing*|Remove-AppxPackage
+Get-AppxPackage *mspaint*|Remove-AppxPackage # 3D Paint
