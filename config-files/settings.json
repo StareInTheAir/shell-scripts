@@ -1,5 +1,5 @@
-// Place your settings in this file to overwrite the default settings
 {
   "editor.renderWhitespace": "all",
-  "files.autoSave": "afterDelay"
+  "files.autoSave": "afterDelay",
+  "workbench.welcome.enabled": false
 }
