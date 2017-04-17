@@ -29,3 +29,8 @@ Get-AppxPackage *3dviewer*|Remove-AppxPackage
 Get-AppxPackage *xbox*|Remove-AppxPackage
 Get-AppxPackage *xing*|Remove-AppxPackage
 Get-AppxPackage *mspaint*|Remove-AppxPackage # 3D Paint
+
+Get-AppxPackage *candy*|Remove-AppxPackage # Candy Crush
+Get-AppxPackage *hpprinter*|Remove-AppxPackage # HP AiO Printer Remote
+Get-AppxPackage *marchofempires*|Remove-AppxPackage
+Get-AppxPackage *minecraftuwp*|Remove-AppxPackage
