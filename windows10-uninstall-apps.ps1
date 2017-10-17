@@ -34,3 +34,9 @@ Get-AppxPackage *candy*|Remove-AppxPackage # Candy Crush
 Get-AppxPackage *hpprinter*|Remove-AppxPackage # HP AiO Printer Remote
 Get-AppxPackage *marchofempires*|Remove-AppxPackage
 Get-AppxPackage *minecraftuwp*|Remove-AppxPackage
+
+Get-AppxPackage *office.sway*|Remove-AppxPackage
+Get-AppxPackage *networkspeedtest*|Remove-AppxPackage
+Get-AppxPackage *remotedesktop*|Remove-AppxPackage
+Get-AppxPackage *duolingo*|Remove-AppxPackage
+Get-AppxPackage *eclipsemanager*|Remove-AppxPackage
