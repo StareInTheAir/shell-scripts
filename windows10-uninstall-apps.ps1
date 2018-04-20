@@ -40,3 +40,7 @@ Get-AppxPackage *networkspeedtest*|Remove-AppxPackage
 Get-AppxPackage *remotedesktop*|Remove-AppxPackage
 Get-AppxPackage *duolingo*|Remove-AppxPackage
 Get-AppxPackage *eclipsemanager*|Remove-AppxPackage
+
+
+Get-AppxPackage *gethelp*|Remove-AppxPackage
+Get-AppxPackage *print3d*|Remove-AppxPackage
