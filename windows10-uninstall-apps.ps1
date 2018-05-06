@@ -44,3 +44,9 @@ Get-AppxPackage *eclipsemanager*|Remove-AppxPackage
 
 Get-AppxPackage *gethelp*|Remove-AppxPackage
 Get-AppxPackage *print3d*|Remove-AppxPackage
+
+# new in a fresh 1803 Windows installation
+
+Get-AppxPackage *dolbyaccess*|Remove-AppxPackage
+Get-AppxPackage *bubblewitch*|Remove-AppxPackage
+Get-AppxPackage *disneymagickingdoms*|Remove-AppxPackage
